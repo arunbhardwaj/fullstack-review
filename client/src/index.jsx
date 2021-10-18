@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import $ from 'jquery';
 import Search from './components/Search.jsx';
 import RepoList from './components/RepoList.jsx';
+import { sendUsernameToServer } from './lib/github.js';
 
 class App extends React.Component {
   constructor(props) {
@@ -15,7 +16,12 @@ class App extends React.Component {
 
   search (term) {
     console.log(`${term} was searched`);
-    // TODO
+    let data = {
+      username: term,
+    }
+    sendUsernameToServer(data, () => {
+      console.log('term was sent and received by server.');
+    });
   }
 
   render () {
