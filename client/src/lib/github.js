@@ -4,7 +4,7 @@ export const sendUsernameToServer = (query, callback) => {
   return $.ajax({
     url: 'http://localhost:1128/repos',
     type: 'POST',
-    data: JSON.stringify(query),
+    data: JSON.stringify(query), // be sure to make query an obj and stringify it
     contentType: 'application/json',
     success: callback,
     error: function(error) {
