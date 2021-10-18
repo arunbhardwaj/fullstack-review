@@ -1,11 +1,8 @@
 const axios = require('axios');
 const config = require('../config.js');
+// const save = require('../database/');
 
 let getReposByUsername = (username) => {
-  // TODO - Use the axios module to request repos for a specific
-  // user from the github API
-  // The options object has been provided to help you out,
-  // but you'll have to fill in the URL
   let options = {
     method: 'GET',
     url: `https://api.github.com/users/${username}/repos`,
@@ -17,7 +14,9 @@ let getReposByUsername = (username) => {
       data = JSON.parse(data);
       let output = [];
       for (let obj of data) {
-        output.push(propertySelect(obj));
+        let newObj = propertySelect(obj);
+        // save(newObj);
+        output.push(newObj);
       }
       return output;
     },
@@ -51,8 +50,10 @@ let propertySelect = ({
   watchers_count,
   forks,
   private,
-  created_at,
-  updated_at,
+  date: {
+    created_at,
+    updated_at,
+  }
 });
 
 module.exports.getReposByUsername = getReposByUsername;
