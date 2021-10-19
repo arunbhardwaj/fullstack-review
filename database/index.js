@@ -52,13 +52,19 @@ let save = (repoObject = {}) => {
   // });
 }
 
-// let getAll = () => {
-//   let results = Repo.find({})._addSpecial('$orderby', {'size': -1})
-//   console.log(results);
-// }
+let getAll = (callback) => {
+  // filter, selectors for query projection, options object, callback
+  //         '+' includes fields
+  //         '-' excludes fields
+  Repo.find({}, '-_id', {limit: 25, sort: {'size': -1}}, (err, results) => {
+    (err) ? callback(err)
+      : callback(null, results);
+  })
+}
 
 // repoSchema.query.byId = function(id) {
 //   return this.where({repo_id: id});
 // }
 
+module.exports.getAll = getAll;
 module.exports.save = save;

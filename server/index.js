@@ -21,11 +21,12 @@ app.post('/repos', function (req, res) {
 });
 
 app.get('/repos', function (req, res) {
-  // TODO - your code here!
-  // This route should send back the top 25 repos
   console.log('hit get endpoint');
   // let results = db.Repo.find({})._addSpecial('$orderby', {'size': -1})
   // console.log(results);
+  db.getAll((err, results) => {
+    res.status(200).send(results);
+  });
 });
 
 let port = process.argv[2] || 1128;

@@ -24,5 +24,5 @@ export const sendUsernameToServer = (query, callback) => {
 
 
 export const getTopRepos = () => {
-  axios.get('http://localhost:1128/repos?_limit:25')
+  return axios.get('http://localhost:1128/repos')
 }

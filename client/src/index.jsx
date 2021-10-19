@@ -15,7 +15,7 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    // getTopRepos().then(results => this.setState({repos: results}));
+    getTopRepos().then(results => this.setState({repos: results}));
   }
 
   search (term) {
