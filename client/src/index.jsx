@@ -19,12 +19,7 @@ class App extends React.Component {
   }
 
   search (term) {
-    console.log(`${term} was sent >>>`);
-    let data = {
-      username: term,
-    }
-    sendUsernameToServer(data, (result) => {
-      console.log('Reponse received <<<');
+    sendUsernameToServer({username: term}, (result) => {
       this.setState({repos: result})
     });
 

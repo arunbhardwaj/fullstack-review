@@ -5,10 +5,13 @@ const RepoList = ({repos}) => (
     <h4> Repo List Component </h4>
     There are {repos.length} repos.
       {repos.map((repo) => {
+        console.log(repo);
         return (
           <div className="card">
             <div className="card header">
-              {repo.name}
+              <a href={repo.url}>
+                {repo.name}
+              </a>
             </div>
             <div className="card body">
               {/* {repo.owner.username} */}
