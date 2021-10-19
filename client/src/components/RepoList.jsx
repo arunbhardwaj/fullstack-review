@@ -21,10 +21,9 @@ const RepoList = ({repos}) => {
           </tr>
         </thead>
         <tbody>
-          {repos.map((repo) => {
-            console.log(repo);
+          {repos.map((repo, idx) => {
             return (
-              <tr className="card">
+              <tr className="card" key={idx}>
                 <td className="card header">
                   <a href={repo.url}>{repo.name}</a>
                 </td>

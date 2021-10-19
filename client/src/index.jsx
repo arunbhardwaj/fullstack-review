@@ -4,6 +4,7 @@ import $ from 'jquery';
 import Search from './components/Search.jsx';
 import RepoList from './components/RepoList.jsx';
 import { sendUsernameToServer, getTopRepos } from './lib/github.js';
+import axios from 'axios';
 
 class App extends React.Component {
   constructor(props) {
@@ -14,7 +15,10 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    getTopRepos().then(results => this.setState({repos: results.data}));
+    axios.get('/repos')
+      .then(({data: repos}) => this.setState({repos}))
+      .catch(err => console.log(err));
+    // getTopRepos().then(results => this.setState({repos: results.data}));
   }
 
   search (term) {

@@ -12,13 +12,17 @@ app.post('/repos', function (req, res) {
   github.getReposByUsername(username)
     .then((response) => { // response.data is what we are looking
       res.status(201);
-    }) // So we have reponse.data but I'm doing this so I can
+    })
+    // So we have reponse.data but I'm doing this so I can
     // have the get request handle only sending 25 results.
     // otherwise we need a function to interpolate the new results
     // into the old top 25
     .then(() => db.getAll((err, results) => {
       res.send(results);
     }))
+    .catch(err => {
+      res.status(500).send();
+    });
 });
 
 app.get('/repos', function (req, res) {
@@ -34,4 +38,3 @@ let port = process.argv[2] || 1128;
 app.listen(port, function() {
   console.log(`listening on port ${port}`);
 });
-

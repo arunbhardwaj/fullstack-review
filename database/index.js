@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/fetcher');
 
-let repoSchema = mongoose.Schema({
+const repoSchema = mongoose.Schema({
   name: {
     type: String,
     required: true
@@ -37,7 +37,7 @@ let repoSchema = mongoose.Schema({
 const Repo = mongoose.model('Repo', repoSchema);
 
 // Make sure to format repoObject
-let save = (repoObject = {}) => {
+const save = (repoObject = {}) => {
   Repo.findOneAndUpdate({repo_id: repoObject.repo_id}, repoObject, {upsert: true}, (err, repo) => {
     if (err) {
       console.error('There was an error adding a repo <<<<<', err)
@@ -45,8 +45,12 @@ let save = (repoObject = {}) => {
       console.log('Repo was added successfully >>>', repo);
     }
   })
+
+  ////////////////////////////
+  // Method 2: custom logic //
+  ////////////////////////////
   // Unnecessary, findAndUpdate with upsert option does this for us
-  // let newRepos = new Repo(repoObject);
+  // const newRepos = new Repo(repoObject);
   // Repo.findOne({repo_id: repoObject.repo_id}, (err, repo) => {
   //   if (err) {
   //     console.log(err);
@@ -59,19 +63,28 @@ let save = (repoObject = {}) => {
   // });
 }
 
-let getAll = (callback) => {
+const getAll = (callback) => {
+  /////////////////////////
+  // Method 1: callbacks //
+  /////////////////////////
   // filter, selectors for query projection, options object, callback
   //         '+' includes fields
   //         '-' excludes fields
-  Repo.find({}, '-_id -__v', {limit: 25, sort: {'size': -1}}, (err, results) => {
-    (err) ? callback(err)
-      : callback(null, results);
-  })
-}
+  // Repo.find({}, '-_id -__v', {limit: 25, sort: {'size': -1}}, (err, results) => {
+  //   (err) ? callback(err)
+  //     : callback(null, results);
+  // })
 
-// repoSchema.query.byId = function(id) {
-//   return this.where({repo_id: id});
-// }
+  ////////////////////////
+  // Method 2: promises //
+  ////////////////////////
+  //ALL THE FIND AND QUERY FUNCTIONS RETURN A QUERY
+  // ALL QUERY OBJECTS HAVE A .then() function and can
+  // be used as a promise
+  Repo.find({}, '-_id -__v', {limit: 25, sort: {'size': -1}})
+    .then((results) => callback(null, results))
+    .catch(err => callback(err))
+}
 
 module.exports.getAll = getAll;
 module.exports.save = save;
