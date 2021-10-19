@@ -34,24 +34,31 @@ let repoSchema = mongoose.Schema({
   }
 });
 
-let Repo = mongoose.model('Repo', repoSchema);
+const Repo = mongoose.model('Repo', repoSchema);
 
 // Make sure to format repoObject
 let save = (repoObject = {}) => {
-  let newRepo = new Repo(repoObject);
-  Repo.findOne({repo_id: repoObject.repo_id}, (err, repo) => {
-    if (err) {
-      console.log(err);
-      return;
-    }
-    if (repo == null) {
-      newRepo.save();
-    }
-  });
+  let newRepos = new Repo(repoObject);
+  newRepos.bulkSave();
+  // Unnecessary, bulkSave() does this for us
+  // Repo.findOne({repo_id: repoObject.repo_id}, (err, repo) => {
+  //   if (err) {
+  //     console.log(err);
+  //     return;
+  //   }
+  //   if (repo == null) {
+  //     newRepo.save();
+  //   }
+  // });
 }
 
-repoSchema.query.byId = function(id) {
-  return this.where({repo_id: id});
-}
+// let getAll = () => {
+//   let results = Repo.find({})._addSpecial('$orderby', {'size': -1})
+//   console.log(results);
+// }
+
+// repoSchema.query.byId = function(id) {
+//   return this.where({repo_id: id});
+// }
 
 module.exports.save = save;

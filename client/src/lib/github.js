@@ -1,4 +1,5 @@
 import $ from 'jquery';
+import axios from 'axios';
 
 export const sendUsernameToServer = (query, callback) => {
   return $.ajax({
@@ -19,4 +20,9 @@ export const sendUsernameToServer = (query, callback) => {
   //   data: {todoText: text},
   //   success: callback
   // });
+}
+
+
+export const getTopRepos = () => {
+  axios.get('http://localhost:1128/repos?_limit:25')
 }

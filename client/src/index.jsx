@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import $ from 'jquery';
 import Search from './components/Search.jsx';
 import RepoList from './components/RepoList.jsx';
-import { sendUsernameToServer } from './lib/github.js';
+import { sendUsernameToServer, getTopRepos } from './lib/github.js';
 
 class App extends React.Component {
   constructor(props) {
@@ -12,6 +12,10 @@ class App extends React.Component {
       repos: []
     }
 
+  }
+
+  componentDidMount() {
+    // getTopRepos().then(results => this.setState({repos: results}));
   }
 
   search (term) {
