@@ -1,6 +1,6 @@
 const express = require('express');
 const github = require('../helpers/github.js');
-// const db = require('../database');
+const db = require('../database');
 
 let app = express();
 

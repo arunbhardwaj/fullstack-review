@@ -14,13 +14,15 @@ let repoSchema = mongoose.Schema({
   },
   description: String,
   owner: {
-    type: String,
-    lowercase: true,
-    required: true
-  },
-  owner_id: {
-    type: Number,
-    required: true
+    id: {
+      type: Number,
+      required: true
+    },
+    username: {
+      type: String,
+      lowercase: true,
+      required: true
+    }
   },
   watchers: Number,
   forks: Number,
@@ -37,7 +39,19 @@ let Repo = mongoose.model('Repo', repoSchema);
 // Make sure to format repoObject
 let save = (repoObject = {}) => {
   let newRepo = new Repo(repoObject);
-  newRepo.save();
+  Repo.findOne({repo_id: repoObject.repo_id}, (err, repo) => {
+    if (err) {
+      console.log(err);
+      return;
+    }
+    if (repo == null) {
+      newRepo.save();
+    }
+  });
+}
+
+repoSchema.query.byId = function(id) {
+  return this.where({repo_id: id});
 }
 
 module.exports.save = save;

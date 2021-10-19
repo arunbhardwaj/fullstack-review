@@ -1,6 +1,6 @@
 const axios = require('axios');
 const config = require('../config.js');
-// const save = require('../database/');
+const db = require('../database/');
 
 let getReposByUsername = (username) => {
   let options = {
@@ -15,7 +15,7 @@ let getReposByUsername = (username) => {
       let output = [];
       for (let obj of data) {
         let newObj = propertySelect(obj);
-        // save(newObj);
+        db.save(newObj);
         output.push(newObj);
       }
       return output;
@@ -38,13 +38,13 @@ let propertySelect = ({
   created_at,
   updated_at,
 }) => ({
-  id,
+  repo_id: id,
   name,
-  html_url,
+  url: html_url,
   description,
   owner: {
     id: owner['id'],
-    login: owner['login'],
+    username: owner['login'],
   },
   size,
   watchers_count,
