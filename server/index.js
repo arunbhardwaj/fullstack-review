@@ -8,15 +8,14 @@ app.use(express.json());
 app.use(express.static(__dirname + '/../client/dist'));
 
 app.post('/repos', function (req, res) {
-  // TODO - your code here!
-  // This route should take the github username provided
-  // and get the repo information from the github API, then
-  // save the repo information in the database
   let username = req.body.username;
   github.getReposByUsername(username)
-    .then((response) => {
+    .then((response) => { // response.data is what we are looking
       res.status(201);
-    })
+    }) // So we have reponse.data but I'm doing this so I can
+    // have the get request handle only sending 25 results.
+    // otherwise we need a function to interpolate the new results
+    // into the old top 25
     .then(() => db.getAll((err, results) => {
       res.send(results);
     }))
