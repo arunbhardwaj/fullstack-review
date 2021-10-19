@@ -38,14 +38,21 @@ const Repo = mongoose.model('Repo', repoSchema);
 
 // Make sure to format repoObject
 let save = (repoObject = {}) => {
-  let newRepos = new Repo(repoObject);
-  newRepos.bulkSave();
-  // Unnecessary, bulkSave() does this for us
+  Repo.findOneAndUpdate({repo_id: repoObject.repo_id}, repoObject, {upsert: true}, (err, repo) => {
+    if (err) {
+      console.error('There was an error adding a repo <<<<<', err)
+    } else {
+      console.log('Repo was added successfully >>>', repo);
+    }
+  })
+  // Unnecessary, findAndUpdate with upsert option does this for us
+  // let newRepos = new Repo(repoObject);
   // Repo.findOne({repo_id: repoObject.repo_id}, (err, repo) => {
   //   if (err) {
   //     console.log(err);
   //     return;
   //   }
+  //   console.log('we are thinking of saving repo');
   //   if (repo == null) {
   //     newRepo.save();
   //   }
@@ -56,7 +63,7 @@ let getAll = (callback) => {
   // filter, selectors for query projection, options object, callback
   //         '+' includes fields
   //         '-' excludes fields
-  Repo.find({}, '-_id', {limit: 25, sort: {'size': -1}}, (err, results) => {
+  Repo.find({}, '-_id -__v', {limit: 25, sort: {'size': -1}}, (err, results) => {
     (err) ? callback(err)
       : callback(null, results);
   })

@@ -21,7 +21,6 @@ let getReposByUsername = (username) => {
       return output;
     },
   };
-
   return axios(options);
 };
 

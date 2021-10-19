@@ -15,17 +15,19 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    getTopRepos().then(results => this.setState({repos: results}));
+    getTopRepos().then(results => this.setState({repos: results.data}));
   }
 
   search (term) {
-    console.log(`${term} was searched`);
+    console.log(`${term} was sent >>>`);
     let data = {
       username: term,
     }
-    sendUsernameToServer(data, () => {
-      console.log('term was sent and received by server.');
+    sendUsernameToServer(data, (result) => {
+      console.log('Reponse received <<<');
+      this.setState({repos: result})
     });
+
   }
 
   render () {
