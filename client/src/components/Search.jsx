@@ -9,7 +9,7 @@ class Search extends React.Component {
 
     this.onChange = this.onChange.bind(this);
     // this.onKeyPressSearch = this.onKeyPressSearch.bind(this); // why must you bind instead of using anon function?
-    // because you need to have the event parameter there.
+    // You don't, it's because you didn't have the event parameter there dummy.
   }
 
   onChange(e) {
